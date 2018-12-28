@@ -107,7 +107,7 @@ class SMILES:
       elif isinstance(item, smilesparser.AST.Charge):
         self.inspect_charge(item.charge, indent+1)
       else:
-        print "  " * indent + str(item), dir(item)
+        print("  " * indent + str(item), dir(item))
     self.prevAtomIdx = self.atomStack.pop()
 
   def inspect_atom(self, atom, indent=0):
@@ -118,7 +118,7 @@ class SMILES:
     elif isinstance(atom, smilesparser.AST.AtomSpec):
       self.inspect_atomspec(atom.atom_spec, indent)
     else:
-      print "  " * indent + atom, dir(atom)
+      print("  " * indent + atom, dir(atom))
 
   def inspect_bond(self, bond, indent=0):
     self.prevBond = bond
@@ -140,7 +140,7 @@ class SMILES:
       elif isinstance(item, smilesparser.AST.RingClosure):
         self.inspect_ring_closure(item.ring_closure, indent)
       else:
-        print "  " * indent + item, dir(item)
+        print("  " * indent + item, dir(item))
 
   def iterate_branch(self, branch, indent=0):
     self.atomStack.append(self.prevAtomIdx)
@@ -150,7 +150,7 @@ class SMILES:
       elif isinstance(item, smilesparser.AST.SMILES):
         self.iterate_smiles(item.smiles, indent+1)
       else:
-        print "  " * indent + item, dir(item)
+        print("  " * indent + item, dir(item))
     self.prevAtomIdx = self.atomStack.pop()
 
   def iterate_smiles(self, smiles, indent=0):
@@ -162,28 +162,28 @@ class SMILES:
       elif isinstance(item, smilesparser.AST.Branch):
         self.iterate_branch(item, indent+1)
       else:
-        print "  " * indent + item, dir(item)
+        print("  " * indent + item, dir(item))
 
 def print_mol(mol):
   for atom in mol.GetAtoms():
     atom.UpdatePropertyCache(strict=False)
 
-    print (atom.GetIdx(),
-           atom.GetAtomicNum(),
-           atom.GetDegree(),
-           atom.GetTotalDegree(),
-           atom.GetTotalValence(),
-           atom.GetImplicitValence(),
-           atom.GetExplicitValence(),
-           atom.GetFormalCharge(),
-           atom.GetNumRadicalElectrons(),
-           atom.GetHybridization(),
-           atom.GetNoImplicit())
+    print(atom.GetIdx(),
+          atom.GetAtomicNum(),
+          atom.GetDegree(),
+          atom.GetTotalDegree(),
+          atom.GetTotalValence(),
+          atom.GetImplicitValence(),
+          atom.GetExplicitValence(),
+          atom.GetFormalCharge(),
+          atom.GetNumRadicalElectrons(),
+          atom.GetHybridization(),
+          atom.GetNoImplicit())
    
   for bond in mol.GetBonds():
-      print (bond.GetBeginAtomIdx(),
-             bond.GetEndAtomIdx(),
-             bond.GetBondType())
+      print(bond.GetBeginAtomIdx(),
+            bond.GetEndAtomIdx(),
+            bond.GetBondType())
 
 if __name__ == '__main__':
   smiles=[
@@ -199,14 +199,14 @@ if __name__ == '__main__':
     # 'CCC(=O)O[C@]1(CC[NH+](C[C@@H]1CC=C)C)c2ccccc2'
   ]
   for s in smiles:
-    print s
+    print(s)
     m = Chem.MolFromSmiles(s)
     s1 = Chem.MolToSmiles(m)
-    print s1
+    print(s1)
     print_mol(m)
-    print
+    print()
 
     sm = SMILES(s1)
     print_mol(sm.mol)
-    print Chem.MolToSmiles(sm.mol)
-    print
+    print(Chem.MolToSmiles(sm.mol))
+    print()

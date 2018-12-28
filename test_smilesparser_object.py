@@ -17,25 +17,25 @@ serial = 0
 atomdb = {}
 last_atom = None
 def inspect_organic_symbol(organic_symbol, indent=0):
-  print "  " * indent + "Organic symbol:", ''.join(organic_symbol)
+  print("  " * indent + "Organic symbol:", ''.join(organic_symbol))
 
 def inspect_aromatic_symbol(aromatic_symbol, indent=0):
-  print "  " * indent + "Aromatic symbol:", ''.join(aromatic_symbol)
+  print("  " * indent + "Aromatic symbol:", ''.join(aromatic_symbol))
 
 def inspect_element_symbol(element_symbol, indent=0):
-  print "  " * indent + "Element symbol:", ''.join(element_symbol)
+  print("  " * indent + "Element symbol:", ''.join(element_symbol))
 
 def inspect_chiral_class(chiral_class, indent=0):
-  print "  " * indent + "Chiral Class:", ''.join(chiral_class)
+  print("  " * indent + "Chiral Class:", ''.join(chiral_class))
 
 def inspect_hcount(hcount, indent=0):
-  print "  " * indent + "HCount:", ''.join(hcount)
+  print("  " * indent + "HCount:", ''.join(hcount))
 
 def inspect_charge(charge, indent=0):
-  print "  " * indent + "Charge:", ''.join(charge)
+  print("  " * indent + "Charge:", ''.join(charge))
 
 def inspect_atomspec(atomspec, indent=0):
-  print "  " * indent + "AtomSpec", ''.join(map(str, atomspec))
+  print("  " * indent + "AtomSpec", ''.join(map(str, atomspec)))
   for item in atomspec:
     if isinstance(item, smilesparser.AST.AromaticSymbol):
       inspect_aromatic_symbol(item.aromatic_symbol, indent+1)
@@ -48,7 +48,7 @@ def inspect_atomspec(atomspec, indent=0):
     elif isinstance(item, smilesparser.AST.Charge):
       inspect_charge(item.charge, indent+1)
     else:
-      print "  " * indent + str(item), dir(item)
+      print("  " * indent + str(item), dir(item))
 
 def inspect_atom(atom, indent=0):
   global last_atom
@@ -60,28 +60,28 @@ def inspect_atom(atom, indent=0):
   elif isinstance(atom, smilesparser.AST.AtomSpec):
     inspect_atomspec(atom.atom_spec)
   else:
-    print "  " * indent + atom, dir(atom)
+    print("  " * indent + atom, dir(atom))
   global serial
   atomdb[atom] = serial
   serial += 1
 
 def inspect_bond(bond, indent=0):
-  print "  " * indent + "Bond:", bond
+  print("  " * indent + "Bond:", bond)
 
 ring_closures = {}
 
 def inspect_ring_closure(ring_closure, indent=0):
-  print "  " * indent + "Ring Closure:", ring_closure
+  print("  " * indent + "Ring Closure:", ring_closure)
   global last_atom
   if ring_closure not in ring_closures:
     ring_closures[ring_closure] = last_atom
   else:
     first = ring_closures[ring_closure]
     second = last_atom
-    print "bond between:", atomdb[first], "and", atomdb[second]
+    print("bond between:", atomdb[first], "and", atomdb[second])
 
 def inspect_chain(chain, indent=0):
-  # print "  " * indent + "Chain"
+  # print("  " * indent + "Chain")
   for item in chain:
     if isinstance(item, smilesparser.AST.Bond):
       inspect_bond(item.bond, indent)
@@ -90,20 +90,20 @@ def inspect_chain(chain, indent=0):
     elif isinstance(item, smilesparser.AST.RingClosure):
       inspect_ring_closure(item.ring_closure, indent)
     else:
-      print "  " * indent + item, dir(item)
+      print("  " * indent + item, dir(item))
 
 def iterate_branch(branch, indent=0):
-  print "  " * indent + "Branch"
+  print("  " * indent + "Branch")
   for item in branch[0]:
     if isinstance(item, smilesparser.AST.Bond):
       inspect_bond(item.bond, indent+1)
     elif isinstance(item, smilesparser.AST.SMILES):
       iterate_smiles(item.smiles, indent+1)
     else:
-      print "  " * indent + item, dir(item)
+      print("  " * indent + item, dir(item))
 
 def iterate_smiles(smiles, indent=0):
-  # print "  " * indent + "SMILES"
+  # print("  " * indent + "SMILES")
   for item in smiles:
     if isinstance(item, smilesparser.AST.Atom):
       inspect_atom(item.atom, indent)
@@ -112,7 +112,7 @@ def iterate_smiles(smiles, indent=0):
     elif isinstance(item, smilesparser.AST.Branch):
       iterate_branch(item, indent+1)
     else:
-      print "  " * indent + item, dir(item)
+      print("  " * indent + item, dir(item))
 
 smiles=[
     # 'C(C)C',
@@ -133,6 +133,6 @@ smiles=[
     "CC(C)CCNC(=O)c1cc(n(n1)c2ccc(cc2)F)c3cccnc3",
 ]
 for s in smiles:
-  print s
+  print(s)
   parsed = smilesparser.SMILES.parseString(s)[0]
   iterate_smiles(parsed.smiles)

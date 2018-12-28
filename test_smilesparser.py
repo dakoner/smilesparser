@@ -18,10 +18,10 @@ lines = [line.strip().split()[0] for line in s[1:]]
 def check(smiles):
   parsed = SMILES.parseString(line)[0]
   if line != parsed and line != str(parsed) and line != str(str(parsed)):
-    print "mismatch:"
-    print line
-    print parsed
-    print
+    print("mismatch:")
+    print(line)
+    print(parsed)
+    print()
     return False
   return True
 
